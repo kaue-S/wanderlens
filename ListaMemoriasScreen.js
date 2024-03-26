@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import { View, Text, FlatList, StyleSheet, Image, Button, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ListaMemoriasScreen() {
@@ -31,8 +31,32 @@ export default function ListaMemoriasScreen() {
     <View style={styles.item}>
       <Image source={{ uri: item.foto.uri }} style={styles.image} />
       <Text style={styles.title}>{item.nome}</Text>
+      <Text style={styles.localizacao}>{item.localizacao}</Text>
     </View>
   );
+
+  const excluirTodosItens = () => {
+    // Exibe um alerta de confirmação
+    Alert.alert(
+      "Excluir todos os itens",
+      "Tem certeza que deseja excluir todos os itens da biblioteca?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Confirmar",
+          onPress: () => {
+            // Limpa o estado de memórias
+            setMemorias([]);
+            // Salva o estado vazio no AsyncStorage
+            AsyncStorage.setItem("memorias", JSON.stringify([]));
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -42,6 +66,9 @@ export default function ListaMemoriasScreen() {
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
+      {memorias.length > 0 && (
+        <Button color="red" onPress={excluirTodosItens} title="Excluir Todos os Itens" />
+      )}
     </View>
   );
 }
@@ -61,6 +88,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     marginTop: 5,
+  },
+  localizacao: {
+    fontSize: 16,
+    color: "#777",
   },
   image: {
     width: 100,

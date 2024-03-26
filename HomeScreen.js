@@ -3,8 +3,6 @@ import {
   Button,
   View,
   Image,
-  Text,
-  Share,
   StyleSheet,
   TextInput,
   Dimensions,
@@ -16,8 +14,9 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import MapView, { Marker } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   // Estado para a foto selecionada
   const [foto, setFoto] = useState(null);
   // Estado para a localização atual do dispositivo
@@ -119,8 +118,8 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.viewBotoes}>
+    <ScrollView contentContainerStyle={estilos.container}>
+      <View style={estilos.viewBotoes}>
         <Button color="#4b0082" onPress={escolherFoto} title="Escolher foto" />
         <Button
           color="#4b0082"
@@ -130,7 +129,7 @@ export default function HomeScreen() {
       </View>
       {foto && (
         <TextInput
-          style={styles.input}
+          style={estilos.input}
           onChangeText={handleChangeNome}
           value={nome}
           placeholder="Dê um nome/título para esta memória"
@@ -138,18 +137,18 @@ export default function HomeScreen() {
       )}
 
       {foto && (
-        <View style={styles.photoContainer}>
+        <View style={estilos.photoContainer}>
           <Image
             source={{ uri: foto.uri }}
             style={{ width: 300, height: 300 }}
           />
-          <View style={styles.viewBotoes}>
+          <View style={estilos.viewBotoes}>
             <Button onPress={salvarMemoria} color="#4b0082" title="Salvar" />
-            <Button color="#4b0082" title="Biblioteca" />
+            <Button color="#4b0082" onPress={() => navigation.navigate("ListaMemorias")} title="Biblioteca"/>
           </View>
           {location && loadingMap ? (
             <MapView
-              style={styles.map}
+              style={estilos.map}
               initialRegion={{
                 latitude: location.latitude,
                 longitude: location.longitude,
@@ -180,7 +179,7 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const estilos = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: "center",
