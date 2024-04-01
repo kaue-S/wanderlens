@@ -81,6 +81,7 @@ export default function HomeScreen({ navigation }) {
     let location = await Location.getCurrentPositionAsync({});
     setLocation(location.coords);
     setLoadingMap(true);
+    console.log(location);
   };
 
   // Função para limpar a aplicação
@@ -100,6 +101,12 @@ export default function HomeScreen({ navigation }) {
         return;
       }
 
+      // Verifica se a localização está disponível
+      if (!location) {
+        alert("Não foi possível obter a localização. Tente novamente.");
+        return;
+      }
+
       // Salva a foto e o nome no AsyncStorage
       let memorias = await AsyncStorage.getItem("memorias");
       if (memorias) {
@@ -108,7 +115,7 @@ export default function HomeScreen({ navigation }) {
         memorias = [];
       }
 
-      memorias.push({ foto, nome });
+      memorias.push({ foto, nome, location });
       await AsyncStorage.setItem("memorias", JSON.stringify(memorias));
       alert("Memória salva com sucesso!");
     } catch (error) {

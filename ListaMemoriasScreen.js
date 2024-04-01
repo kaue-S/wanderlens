@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, StyleSheet, Image, Button, Alert } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  Button,
+  Alert,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ListaMemoriasScreen() {
@@ -31,7 +39,7 @@ export default function ListaMemoriasScreen() {
     <View style={styles.item}>
       <Image source={{ uri: item.foto.uri }} style={styles.image} />
       <Text style={styles.title}>{item.nome}</Text>
-      <Text style={styles.localizacao}>{item.localizacao}</Text>
+      <Text style={styles.localizacao}>{item.location}</Text>
     </View>
   );
 
@@ -67,7 +75,11 @@ export default function ListaMemoriasScreen() {
         keyExtractor={(item, index) => index.toString()}
       />
       {memorias.length > 0 && (
-        <Button color="red" onPress={excluirTodosItens} title="Excluir Todos os Itens" />
+        <Button
+          color="red"
+          onPress={excluirTodosItens}
+          title="Excluir Todos os Itens"
+        />
       )}
     </View>
   );
