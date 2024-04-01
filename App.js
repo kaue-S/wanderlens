@@ -15,7 +15,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: "Memórias" }}
+          options={{ title: "Locais Visitados" }}
         />
         <Stack.Screen
           name="ListaMemorias"

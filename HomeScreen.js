@@ -120,11 +120,17 @@ export default function HomeScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={estilos.container}>
       <View style={estilos.viewBotoes}>
-        <Button color="#4b0082" onPress={escolherFoto} title="Escolher foto" />
         <Button
-          color="#4b0082"
+          style={estilos.tirarFoto}
+          color="green"
+          onPress={escolherFoto}
+          title="📂 Ver fotos"
+        />
+        <Button
+          style={estilos.verFoto}
+          color="blue"
           onPress={acessarCamera}
-          title="Tirar uma foto"
+          title="📸 Tirar foto"
         />
       </View>
       {foto && (
@@ -143,8 +149,16 @@ export default function HomeScreen({ navigation }) {
             style={{ width: 300, height: 300 }}
           />
           <View style={estilos.viewBotoes}>
-            <Button onPress={salvarMemoria} color="#4b0082" title="Salvar" />
-            <Button color="#4b0082" onPress={() => navigation.navigate("ListaMemorias")} title="Biblioteca"/>
+            <Button
+              onPress={salvarMemoria}
+              color="#4b0082"
+              title=" 💾 Salvar"
+            />
+            <Button
+              color="#4b0082"
+              onPress={() => navigation.navigate("ListaMemorias")}
+              title="📂 Biblioteca"
+            />
           </View>
           {location && loadingMap ? (
             <MapView
@@ -173,7 +187,7 @@ export default function HomeScreen({ navigation }) {
 
       {/* Botão para limpar a aplicação */}
       {foto && (
-        <Button color="red" onPress={limparApp} title="Limpar aplicação" />
+        <Button color="red" onPress={limparApp} title="🗑 Limpar aplicação" />
       )}
     </ScrollView>
   );
@@ -187,6 +201,11 @@ const estilos = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 20,
   },
+
+  tirarFoto: {
+    backgroundColor: "yellow",
+  },
+
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
