@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export default function ListaMemoriasScreen() {
   // Estado para armazenar as memórias
@@ -34,12 +35,32 @@ export default function ListaMemoriasScreen() {
     carregarMemorias();
   }, []);
 
+  // Função para obter o endereço usando geocodificação
+  const obterEndereco = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=SUA_CHAVE_DE_API_DO_GOOGLE_MAPS`
+      );
+      if (response.data.results.length > 0) {
+        return response.data.results[0].formatted_address;
+      } else {
+        return "Endereço não encontrado";
+      }
+    } catch (error) {
+      console.error("Erro ao obter endereço:", error);
+      return "Erro ao obter endereço";
+    }
+  };
+
   // Função para renderizar cada item da lista
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Image source={{ uri: item.foto.uri }} style={styles.image} />
       <Text style={styles.title}>{item.nome}</Text>
-      <Text style={styles.localizacao}>{item.location}</Text>
+      <Text style={styles.localizacao}>
+        {item.location.latitude}
+        {item.location.longitude}
+      </Text>
     </View>
   );
 
